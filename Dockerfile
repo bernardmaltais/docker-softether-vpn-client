@@ -22,14 +22,17 @@ RUN set -ex ; \
     make ; make install ; make clean ; \
     # Striping vpnclient
     strip /usr/vpnclient/vpnclient ; \
+    
+    # Striping vpncmd
+    strip /usr/bin/vpncmd ; strip /usr/vpncmd ; \
 
     # Cleanning
     apk del .build-deps ; \
     # Reintroduce necessary libraries
     apk add --no-cache --virtual .run-deps \
       libcap libcrypto1.0 libssl1.0 ncurses-libs readline su-exec ; \
-    # Removing vpnbridge, vpncmd vpnserver and build files
-    cd .. ; rm -rf /usr/vpnbridge /usr/bin/vpnbridge /usr/vpncmd /usr/bin/vpncmd /usr/vpnserver /usr/bin/vpnserver /usr/bin/vpnclient \
+    # Removing vpnbridge, vpnserver and build files
+    cd .. ; rm -rf /usr/vpnbridge /usr/bin/vpnbridge /usr/vpnserver /usr/bin/vpnserver /usr/bin/vpnclient \
       /assets SoftEtherVPN-${SOFTETHER_VERSION:1} ;
 
 ENTRYPOINT ["/entrypoint.sh"]
